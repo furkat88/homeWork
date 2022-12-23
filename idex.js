@@ -1,5 +1,8 @@
 const url = "https://dummyjson.com/users";
 
+const loading = document.querySelector('.wrap')
+const content = document.querySelector('.content')
+
 const box1 = document.querySelector(".box_1");
 const box2 = document.querySelector(".box_2");
 const box3 = document.querySelector(".box_3");
@@ -7,13 +10,21 @@ const show_box_1_btn = document.querySelector(".show_box_1");
 const show_box_2_btn = document.querySelector(".show_box_2");
 const show_box_3_btn = document.querySelector(".show_box_3");
 
+const show_less_box_1_btn = document.querySelector(".show_less_box_1");
+const show_less_box_2_btn = document.querySelector(".show_less_box_2");
+const show_less_box_3_btn = document.querySelector(".show_less_box_3");
+
 async function httpsRequest(url) {
   const response = await fetch(url);
   const data = await response.json();
+  if (response.ok) {
+    loading.style.display = 'none'
+    content.style.display = 'block'
+  }
   return data;
 }
 
-function userCard(user) {
+function userCardCreate(user) {
   const card = document.createElement("div");
   const firstName = document.createElement("p");
   const lastName = document.createElement("p");
@@ -24,7 +35,7 @@ function userCard(user) {
 
   firstName.innerText = `Firstname: ${user.firstName}`;
   lastName.innerText = `Lastname: ${user.lastName}`;
-  maidenName.innerText = `Maidelname: ${user.maidenName}`;
+  maidenName.innerText = `MaidenName: ${user.maidenName}`;
   age.innerText = `Age: ${user.age}`;
 
   card.append(firstName, lastName, maidenName, age);
@@ -41,9 +52,9 @@ function render(url) {
     let usersAgeMore35 = users.filter(user => user.age > 35)
 
     function showMore(arr, count, box) {
-        arr.forEach((user, i) => {
-            if (i < count) box.append(userCard(user))
-        });
+      arr.forEach((user, i) => {
+        if (i < count) box.append(userCardCreate(user))
+      });
     }
 
     showMore(usersAgeLess25, count = 3, box1)
@@ -52,15 +63,24 @@ function render(url) {
 
 
     function clickToShow(arr, box) {
-            let count = box.childElementCount += 3
-            box.innerHTML = ''
-            showMore(arr, count, box)
+      let count = box.childElementCount += 3
+      box.innerHTML = ''
+      showMore(arr, count, box)
     }
 
     show_box_1_btn.onclick = () => clickToShow(usersAgeLess25, box1)
     show_box_2_btn.onclick = () => clickToShow(usersAgeLess35, box2)
     show_box_3_btn.onclick = () => clickToShow(usersAgeMore35, box3)
-    
+
+
+    function clickToShowLess(arr, box) {
+      box.innerHTML = ''
+      showMore(arr, count, box)
+    }
+
+    show_less_box_1_btn.onclick = () => clickToShowLess(usersAgeLess25, box1)
+    show_less_box_2_btn.onclick = () => clickToShowLess(usersAgeLess35, box2)
+    show_less_box_3_btn.onclick = () => clickToShowLess(usersAgeMore35, box3)
 
   });
 }
