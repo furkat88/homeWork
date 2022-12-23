@@ -1,0 +1,20 @@
+.userCard {
+    border: 1px solid black;
+    margin: 5px;
+    width: 300px;
+    padding: 5px;
+}
+
+.box_1, .box_2, .box_3 {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 10px;
+    padding: 5px;
+}
+
+a {
+    cursor: pointer;
+    background-color: aqua;
+}
